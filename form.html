@@ -26,18 +26,30 @@
         <input type="email" id="email" required><br>
         <button>Submit</button>
       </form>
-
+<ul id="userList"></ul>
       <script>
         function saveToLocalStorage(event){
             event.preventDefault();
             const name=event.target.name.value;
             const email=event.target.email.value;
-            localStorage.setItem('name',name);
-            localStorage.setItem('email',email);
-        }
-      </script>
+            
+            const userDetails = {
+    name: name,
+    email: email
+  }
+
+  localStorage.setItem(userDetails.email, JSON.stringify(userDetails));
+  showUserOnScreen(userDetails)
+
+}
+
+function showUserOnScreen(userDetails){
+
+    const parentElem=document.getElementById('userList')
+    const childElem =document.createElement('li')
+childElem.textContent=userDetails.name+'-'+userDetails.email;
+parentElem.appendChild(childElem);
+}
+
+        </script>
 </html>
-
-
-
-  
