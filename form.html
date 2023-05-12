@@ -49,16 +49,29 @@ function showUserOnScreen(userDetails){
     const childElem =document.createElement('li')
 childElem.textContent=userDetails.name+'-'+userDetails.email;
 
+const editButton = document.createElement('button');
+  editButton.textContent = 'Edit';
+  editButton.addEventListener('click', function () {
+    editUser(userDetails);
+  });
+
 const deleteButton = document.createElement('button');
       deleteButton.textContent = 'Delete';
       deleteButton.addEventListener('click', function(){
         deleteUser(userDetails.email);
         parentElem.removeChild(childElem);
       });
-
+      childElem.appendChild(editButton);
       childElem.appendChild(deleteButton);
 parentElem.appendChild(childElem);
 
+
+function editUser(userDetails) {
+    document.getElementById('name').value = userDetails.name;
+    document.getElementById('email').value = userDetails.email;
+    localStorage.removeItem(userDetails.email);
+    parentElem.removeChild(childElem);
+  }
 function deleteUser(email){
       localStorage.removeItem(email);
     }
