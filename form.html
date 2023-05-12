@@ -40,7 +40,7 @@
 
   localStorage.setItem(userDetails.email, JSON.stringify(userDetails));
   showUserOnScreen(userDetails)
-
+  event.target.reset();
 }
 
 function showUserOnScreen(userDetails){
@@ -48,7 +48,22 @@ function showUserOnScreen(userDetails){
     const parentElem=document.getElementById('userList')
     const childElem =document.createElement('li')
 childElem.textContent=userDetails.name+'-'+userDetails.email;
+
+const deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Delete';
+      deleteButton.addEventListener('click', function(){
+        deleteUser(userDetails.email);
+        parentElem.removeChild(childElem);
+      });
+
+      childElem.appendChild(deleteButton);
 parentElem.appendChild(childElem);
+
+function deleteUser(email){
+      localStorage.removeItem(email);
+    }
+
+   
 }
 
         </script>
