@@ -1,0 +1,96 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    </head>
+    <body>
+        <form id="expense-tracker">
+            <label for="amount">Choose Expense Amount:</label>
+            <input type="text" id="amount" >
+            <label for="description">Description:</label>
+            <input type="text" id="description" >
+            <label for="category">Choose a Category:</label>
+            <select id="categories">
+                <option id="category">Fuel</option>
+                <option id="category">Food</option>
+                <option id="category">Electricity</option>
+                <option id="category">Movie</option>
+              </select>
+            <button id="addExpense">Add Expense</button>
+<ul id="list-items"></ul>
+            
+        </form>
+       <script>
+ 
+document.getElementById("amount").focus();
+
+var addExpenseBtn=document.getElementById("addExpense");
+
+addExpenseBtn.addEventListener('click',saveToLocalStorage)
+
+function saveToLocalStorage(event){
+    event.preventDefault();
+
+    const amount=document.getElementById("amount").value;
+    const description=document.getElementById("description").value;
+    const category=document.getElementById("categories").value;
+
+    const details={amount:amount, 
+        description:description, 
+        category:category}
+
+    localStorage.setItem(details.description, JSON.stringify(details));
+     clearFields();
+    showExpenseDetails(details);
+ 
+}
+function showExpenseDetails(details){
+    var parentEle= document.getElementById("list-items");
+    var childEle=document.createElement("li");
+    childEle.setAttribute("id","list-item");
+    childEle.textContent="Expense Amount:"+details.amount+"---"+"Description:"+details.description+"---"+"Category:"+details.category;
+    childEle.style.backgroundColor="lightblue";
+    parentEle.appendChild(childEle);
+
+  
+var del=document.createElement("button");
+del.textContent="Delete";
+del.style.backgroundColor="red"
+del.addEventListener("click",deleteFromLocalStorage)
+
+function deleteFromLocalStorage(event){
+    event.preventDefault();
+   localStorage.removeItem(details.description);
+  parentEle.removeChild(childEle);
+}  
+childEle.appendChild(del);
+
+var ed=document.createElement("button");
+ed.textContent="Edit";
+ed.style.backgroundColor="green";
+ed.addEventListener("click",editLocalStorage);
+
+function editLocalStorage(event){
+event.preventDefault();
+document.getElementById("amount").value=details.amount;
+document.getElementById("description").value=details.description;
+document.getElementById("categories").value=details.category;
+localStorage.removeItem(details.description);
+parentEle.removeChild(childEle);
+}
+childEle.appendChild(ed);
+
+}
+function clearFields(){
+    
+    document.getElementById("amount").value="";
+   document.getElementById("description").value="";
+    document.getElementById("categories").value="";
+
+}
+
+
+   
+
+</script>     
+    </body>
+</html>
